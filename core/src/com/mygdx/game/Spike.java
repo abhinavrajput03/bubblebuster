@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.math.Circle;
@@ -14,6 +15,12 @@ public class Spike {
 
     Vector2 position;
     ExtendViewport mViewport;
+
+    Array<BlueBubble> hb;
+    Array<GreenBubble> hg;
+    Array<RedBubble> hr;
+
+    int flagb=1,flagg=1,flagr=1;
 
         public Spike(ExtendViewport mViewport)
     {
@@ -24,6 +31,9 @@ public class Spike {
     public void init()
     {
         position = new Vector2(mViewport.getWorldWidth()/2,Constants.SPIKE_HEIGHT);
+        hb = new Array<BlueBubble>();
+        hg = new Array<GreenBubble>();
+        hr = new Array<RedBubble>();
     }
 
     public void update(float delta) {
@@ -50,30 +60,49 @@ public class Spike {
 
     public boolean popBlueBubble(Fall fall){
         boolean pop = false;
-
+        flagb = 1;
         for(BlueBubble bb : fall.mBlueBubbles){
             if(bb.position.dst(position) < bb.radius )
-            pop =true;
+            {
+                for (BlueBubble hbb : hb)
+                    if(bb == hbb)
+                    { flagb=0; break;}
+                if(flagb==1)
+                { pop =true; hb.add(bb);}
+        }
         }
         return pop;
     }
 
     public boolean popGreenBubble(Fall fall){
         boolean pop = false;
+        flagg = 1;
+        for(GreenBubble gb : fall.mGreenBubbles) {
+            if (gb.position.dst(position) < gb.radius) {
 
-        for(GreenBubble gb : fall.mGreenBubbles){
-            if(gb.position.dst(position)< gb.radius)
-                pop =true;
+                for (GreenBubble hgb : hg)
+                    if (gb == hgb)
+                    { flagg = 0;   break; }
+                if (flagg == 1) {
+                    pop = true;
+                    hg.add(gb);
+                }
+            }
         }
         return pop;
     }
 
     public boolean popRedBubble(Fall fall){
         boolean pop = false;
-
+        flagr = 1;
         for(RedBubble rb : fall.mRedBubbles){
             if(rb.position.dst(position)< rb.radius)
-                pop =true;
+            { for (RedBubble hrb : hr)
+                    if(rb == hrb)
+                    { flagr=0; break;}
+            if(flagr==1)
+            { pop =true; hr.add(rb);}
+        }
         }
         return pop;
     }

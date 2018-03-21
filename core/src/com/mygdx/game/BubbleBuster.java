@@ -18,6 +18,6 @@ public class BubbleBuster extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new BubbleGame());
+		setScreen(new BubbleGame(this));
 	}
 }

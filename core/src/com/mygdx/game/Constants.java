@@ -22,5 +22,5 @@ public class Constants {
 
     public static final float SPIKE_HEIGHT = 30f;
     public static final float SPIKE_WIDTH = 40f;
-    public static final float SPIKE_SPEED = 2000f;
+    public static final float SPIKE_SPEED = 3500f;
 }
